@@ -6,3 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 file(GLOB SOURCES CONFIGURE_DEPENDS src/*.cpp)
 add_executable(RestaurantSystem ${SOURCES})
+
+target_compile_options(RestaurantSystem PRIVATE
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -pedantic>
+)
