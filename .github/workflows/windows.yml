@@ -20,6 +20,11 @@ jobs:
       - name: Build Windows program
         run: cmake --build build --config Release
 
+      - name: Test Windows program startup
+        shell: pwsh
+        run: |
+          "3" | .\build\Release\RestaurantSystem.exe
+
       - name: Save Windows program
         uses: actions/upload-artifact@v4
         with:
