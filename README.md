@@ -11,6 +11,8 @@ A console-based restaurant ordering system written in C++.
 
 The Admin option is a placeholder and is not implemented yet.
 
+> **Note:** Card payment is a simulation only. No card numbers or payment details are stored anywhere.
+
 ## Requirements
 
 - CMake 3.16 or later.
@@ -24,3 +26,18 @@ Open a terminal in the project folder and run:
 cmake -S . -B build
 cmake --build build
 ./build/RestaurantSystem
+```
+
+> **Note:** To exit at any input prompt, press Ctrl+D.
+
+## Build and Run on Windows
+
+Open a terminal in the project folder and run:
+
+```bat
+cmake -S . -B build
+cmake --build build
+.\build\Debug\RestaurantSystem.exe
+```
+
+> **Note:** To exit at any input prompt, press Ctrl+Z then Enter.
