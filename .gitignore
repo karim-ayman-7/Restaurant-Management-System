@@ -1,0 +1,5 @@
+.DS_Store
+/build/
+/RestaurantSystem
+/src/Main
+*.o
