@@ -2,12 +2,15 @@
 
 #include <iostream>
 #include "Enums.h"
+#include "FileManager.h"
 #include "Utils.h"
 
 using namespace std;
 
 Restaurant::Restaurant()
-    : customerMenu(menu)
+    : menu(FileManager::LoadMenu("data/menu.txt")),
+      customerMenu(menu),
+      adminMenu(menu)
 {
 }
 
@@ -35,8 +38,7 @@ void Restaurant::PerformChoice(int choice)
 
     case enUserType::Admin:
     {
-        cout << "Will be implemented in the future" << endl;
-        PauseAndWaitForEnter();
+        adminMenu.Run();
         break;
     }
 

@@ -16,7 +16,7 @@ public:
 
     int GetId() const;
     int GetTotal() const;
-    void AddItem(const MenuItem& item, int quantity);
+    bool AddItem(const MenuItem& item, int quantity);
     bool IsEmpty() const;
     const std::vector<OrderItem>& GetItems() const;
     bool SetItemQuantity(int index, int quantity);

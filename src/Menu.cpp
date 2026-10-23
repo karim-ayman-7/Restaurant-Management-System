@@ -1,78 +1,66 @@
 #include "Menu.h"
 
-#include <iostream>
-#include <iomanip>
-#include "Utils.h"
-
 using namespace std;
 
-Menu::Menu()
+Menu::Menu(const vector<MenuItem>& items)
+    : MenuItems(items)
 {
-    MenuItems.push_back(MenuItem("Chicken Burger", 50, enCategory::Burger));
-    MenuItems.push_back(MenuItem("Meat Burger", 60, enCategory::Burger));
-
-    MenuItems.push_back(MenuItem("Pepperoni Pizza", 100, enCategory::Pizza));
-    MenuItems.push_back(MenuItem("Vegetable Pizza", 90, enCategory::Pizza));
-
-    MenuItems.push_back(MenuItem("Pepsi", 20, enCategory::Drinks));
-    MenuItems.push_back(MenuItem("Seven Up", 20, enCategory::Drinks));
-    MenuItems.push_back(MenuItem("Orange Juice", 30, enCategory::Drinks));
-
-    MenuItems.push_back(MenuItem("Cake", 40, enCategory::Dessert));
-    MenuItems.push_back(MenuItem("Chocolate", 35, enCategory::Dessert));
 }
 
-void Menu::MenuHeader() const
+bool Menu::AddItem(const string& name, int price, const string& category)
 {
-    ClearScreen();
+    if (name.empty() || price <= 0 || category.empty())
+        return false;
 
-    PrintLine();
-    PrintCentered("Restaurant Menu");
-    PrintLine();
+    MenuItems.push_back(MenuItem(name, price, category));
+
+    return true;
 }
 
-void Menu::DisplayCategories() const
+std::vector<MenuItem> Menu::GetItems() const
 {
-    cout << "Choose A Category" << endl << endl;
-
-    cout << "1-Burger" << endl;
-    cout << "2-Pizza" << endl;
-    cout << "3-Drinks" << endl;
-    cout << "4-Dessert" << endl;
-    cout << "5-Back" << endl;
+    return MenuItems;
 }
 
-void Menu::DisplayCategoryItems(enCategory Category) const
+bool Menu::RemoveItem(int id)
 {
-    int choice = 1;
-
-    for (const MenuItem& item : MenuItems)
+    for (int i = 0; i < static_cast<int>(MenuItems.size()); i++)
     {
-        if (item.GetCategory() == Category)
+        if (MenuItems[i].GetId() == id)
         {
-            cout << choice++ << "-";
-            cout << setw(25) << left << item.GetName() << "Price: ";
-            cout << item.GetPrice() << endl;
+            MenuItems.erase(MenuItems.begin() + i);
+            return true;
         }
     }
 
-    cout << choice << "-Back" << endl;
+    return false;
 }
 
-enCategory Menu::SelectCategoryChoice()
+vector<string> Menu::GetCategories() const
 {
-    int choice;
+    vector<string> categories;
 
-    while (true)
+    for (const MenuItem& item : MenuItems)
     {
-        if (ReadInt(choice) && choice >= 1 && choice <= 5)
-            return static_cast<enCategory>(choice);
+        bool found = false;
 
-        cout << "Invalid category. Choose a number from 1 to 5: ";
+        for (const string& cat : categories)
+        {
+            if (cat == item.GetCategory())
+            {
+                found = true;
+                break;
+            }
+        }
+
+        if (!found)
+            categories.push_back(item.GetCategory());
     }
+
+    return categories;
 }
 
-vector<MenuItem> Menu::GetItemsByCategory(enCategory category) const
+vector<MenuItem> Menu::GetItemsByCategory(const string& category) const
 {
     vector<MenuItem> result;
 

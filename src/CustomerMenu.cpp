@@ -20,7 +20,7 @@ void CustomerMenu::ShowOptions()
     cout << "1-Start Order" << endl;
     cout << "2-View / Edit My Order" << endl;
     cout << "3-Make Payment" << endl;
-    cout << "4-Back" << endl;
+    cout << "4-Exit Customer" << endl;
 }
 
 void CustomerMenu::PerformChoice(int choice)
@@ -48,7 +48,7 @@ void CustomerMenu::PerformChoice(int choice)
         break;
     }
 
-    case enCustomerMenu::Back:
+    case enCustomerMenu::Exit:
     {
         ClearScreen();
         break;
@@ -58,5 +58,5 @@ void CustomerMenu::PerformChoice(int choice)
 
 int CustomerMenu::GetLastChoice() const
 {
-    return static_cast<int>(enCustomerMenu::Back);
+    return static_cast<int>(enCustomerMenu::Exit);
 }

@@ -1,0 +1,12 @@
+1|Chicken Burger|50|Burger
+2|Meat Burger|60|Burger
+3|Pepperoni Pizza|100|Pizza
+4|Vegetable Pizza|90|Pizza
+5|Pepsi|20|Drinks
+6|Seven Up|20|Drinks
+7|Orange Juice|30|Drinks
+8|Cake|40|Dessert
+9|Chocolate|35|Dessert
+10|Nuggets|20|Sides
+11|Mango Juice|35|Drinks
+12|Fries|10|Sides

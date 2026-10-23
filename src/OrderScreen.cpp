@@ -7,7 +7,7 @@
 using namespace std;
 
 OrderScreen::OrderScreen(Menu& menu, Order& order)
-    : menu(menu), order(order)
+    : menu(menu), order(order), menuScreen(menu)
 {
 }
 
@@ -70,22 +70,22 @@ int OrderScreen::ReadNewQuantity()
     }
 }
 
-bool OrderScreen::SelectCategory(enCategory& category)
+bool OrderScreen::SelectCategory(string& category)
 {
-    menu.MenuHeader();
-    menu.DisplayCategories();
+    menuScreen.MenuHeader();
+    menuScreen.DisplayCategories();
 
-    category = menu.SelectCategoryChoice();
+    category = menuScreen.SelectCategoryChoice();
 
-    return category != enCategory::Back;
+    return !category.empty();
 }
 
-int OrderScreen::SelectItemNumber(enCategory category, int itemsCount)
+int OrderScreen::SelectItemNumber(string category, int itemsCount)
 {
     while (true)
     {
-        menu.MenuHeader();
-        menu.DisplayCategoryItems(category);
+        menuScreen.MenuHeader();
+        menuScreen.DisplayCategoryItems(category);
 
         cout << "Enter item number: ";
         int choice = ReadItemChoice();
@@ -107,7 +107,7 @@ bool OrderScreen::AddItemToOrder()
 {
     while (true)
     {
-        enCategory category;
+        string category;
 
         if (!SelectCategory(category))
             return false;
@@ -121,7 +121,12 @@ bool OrderScreen::AddItemToOrder()
 
         int quantity = ReadQuantity();
 
-        order.AddItem(items[choice - 1], quantity);
+        if (!order.AddItem(items[choice - 1], quantity))
+        {
+            cout << "Invalid quantity. Enter a number greater than 0." << endl;
+            PauseAndWaitForEnter();
+            return false;
+        }
 
         cout << "Item added successfully!" << endl;
         return true;

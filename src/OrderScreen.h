@@ -3,6 +3,7 @@
 #include <vector>
 #include "Enums.h"
 #include "Menu.h"
+#include "MenuScreen.h"
 #include "Order.h"
 
 class OrderScreen
@@ -10,13 +11,14 @@ class OrderScreen
 private:
     Menu& menu;
     Order& order;
+    MenuScreen menuScreen;
 
     void PrintOrderDetails() const;
     int ReadItemChoice();
     int ReadQuantity();
     int ReadNewQuantity();
-    bool SelectCategory(enCategory& category);
-    int SelectItemNumber(enCategory category, int itemsCount);
+    bool SelectCategory(std::string& category);
+    int SelectItemNumber(std::string category, int itemsCount);
     bool AddItemToOrder();
 
 public:

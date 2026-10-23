@@ -17,7 +17,6 @@
 
 using namespace std;
 
-
 void PauseAndWaitForEnter()
 {
     cout << endl << "Press Enter to continue...";
@@ -54,7 +53,7 @@ void PrintCentered(const string& text)
     cout << string(spaces, ' ') << text << endl;
 }
 
-void PrintLine(char symbol )
+void PrintLine(char symbol)
 {
     cout << string(GetTerminalWidth(), symbol) << endl;
 }

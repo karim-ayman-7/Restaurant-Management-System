@@ -26,18 +26,22 @@ int Order::GetTotal() const
     return total;
 }
 
-void Order::AddItem(const MenuItem& item, int quantity)
+bool Order::AddItem(const MenuItem& item, int quantity)
 {
+    if (quantity <= 0)
+        return false;
+
     for (OrderItem& orderItem : OrderItems)
     {
         if (orderItem.GetItem().GetId() == item.GetId())
         {
             orderItem.IncreaseQuantity(quantity);
-            return;
+            return true;
         }
     }
 
     OrderItems.push_back(OrderItem(item, quantity));
+    return true;
 }
 
 bool Order::IsEmpty() const

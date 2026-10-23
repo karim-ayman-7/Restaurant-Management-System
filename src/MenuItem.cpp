@@ -4,9 +4,16 @@ using namespace std;
 
 int MenuItem::NextId = 1;
 
-MenuItem::MenuItem(const string& name, int price, enCategory category)
-    : Name(name), Price(price), Category(category), Id(NextId++)
+MenuItem::MenuItem(const string& name, int price, const string& category)
+    : MenuItem(NextId, name, price, category)
 {
+}
+
+MenuItem::MenuItem(int id, const string& name, int price, const string& category)
+    : Id(id), Name(name), Price(price), Category(category)
+{
+    if (id >= NextId)
+        NextId = id + 1;
 }
 
 const string& MenuItem::GetName() const
@@ -24,7 +31,7 @@ int MenuItem::GetId() const
     return Id;
 }
 
-enCategory MenuItem::GetCategory() const
+const string& MenuItem::GetCategory() const
 {
     return Category;
 }
