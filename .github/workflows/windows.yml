@@ -1,0 +1,27 @@
+name: Build Windows version
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Get project files
+        uses: actions/checkout@v4
+
+      - name: Configure project
+        run: cmake -S . -B build
+
+      - name: Build Windows program
+        run: cmake --build build --config Release
+
+      - name: Save Windows program
+        uses: actions/upload-artifact@v4
+        with:
+          name: RestaurantSystem-Windows
+          path: build/Release/RestaurantSystem.exe
