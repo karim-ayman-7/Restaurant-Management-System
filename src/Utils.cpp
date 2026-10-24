@@ -17,11 +17,15 @@
 
 using namespace std;
 
-void PauseAndWaitForEnter()
+void ClearScreen()
 {
-    cout << endl << "Press Enter to continue...";
-    cin.get();
+#ifdef _WIN32
+    system("cls");
+#else
+    system("clear && printf '\\033[3J'");
+#endif
 }
+
 
 int GetTerminalWidth()
 {
@@ -42,6 +46,13 @@ int GetTerminalWidth()
 #endif
 }
 
+
+void PrintLine(char symbol)
+{
+    cout << string(GetTerminalWidth(), symbol) << endl;
+}
+
+
 void PrintCentered(const string& text)
 {
     int terminalWidth = GetTerminalWidth();
@@ -53,19 +64,6 @@ void PrintCentered(const string& text)
     cout << string(spaces, ' ') << text << endl;
 }
 
-void PrintLine(char symbol)
-{
-    cout << string(GetTerminalWidth(), symbol) << endl;
-}
-
-void ClearScreen()
-{
-#ifdef _WIN32
-    system("cls");
-#else
-    system("clear && printf '\\033[3J'");
-#endif
-}
 
 bool ReadInt(int& value)
 {
@@ -95,6 +93,7 @@ bool ReadInt(int& value)
     return true;
 }
 
+
 string ReadLine()
 {
     string line;
@@ -107,6 +106,7 @@ string ReadLine()
 
     return line;
 }
+
 
 bool ReadYesNo()
 {
@@ -122,4 +122,10 @@ bool ReadYesNo()
 
         cout << "Invalid choice! Enter y or n only." << endl;
     }
+}
+
+void PauseAndWaitForEnter()
+{
+    cout << endl << "Press Enter to continue...";
+    cin.get();
 }

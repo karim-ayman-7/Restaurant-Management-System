@@ -1,12 +1,40 @@
-1|Chicken Burger|50|Burger
-2|Meat Burger|60|Burger
-3|Pepperoni Pizza|100|Pizza
-4|Vegetable Pizza|90|Pizza
-5|Pepsi|20|Drinks
-6|Seven Up|20|Drinks
-7|Orange Juice|30|Drinks
-8|Cake|40|Dessert
-9|Chocolate|35|Dessert
-10|Nuggets|20|Sides
-11|Mango Juice|35|Drinks
-12|Fries|10|Sides
+1#Chicken Burger#55#Burger
+2#Meat Burger#60#Burger
+13#Cheeseburger#65#Burger
+14#Double Beef Burger#90#Burger
+15#BBQ Chicken Burger#75#Burger
+16#Mushroom Swiss Burger#85#Burger
+3#Pepperoni Pizza#100#Pizza
+4#Vegetable Pizza#90#Pizza
+17#Margherita Pizza#85#Pizza
+18#BBQ Chicken Pizza#110#Pizza
+19#Four Cheese Pizza#105#Pizza
+20#Supreme Pizza#120#Pizza
+10#Nuggets#20#Sides
+12#Fries#10#Sides
+21#Onion Rings#25#Sides
+22#Chicken Wings#45#Sides
+23#Mozzarella Sticks#35#Sides
+24#Coleslaw#15#Sides
+5#Pepsi#20#Drinks
+6#Seven Up#20#Drinks
+25#Cola#15#Drinks
+26#Diet Cola#15#Drinks
+27#Iced Tea#25#Drinks
+28#Bottled Water#10#Drinks
+7#Orange Juice#30#Juices
+11#Mango Juice#35#Juices
+29#Lemon Mint Juice#35#Juices
+30#Strawberry Juice#40#Juices
+31#Guava Juice#35#Juices
+8#Cake#40#Dessert
+9#Chocolate#35#Dessert
+32#Brownie#35#Dessert
+33#Cheesecake#55#Dessert
+34#Tiramisu#60#Dessert
+35#Ice Cream#30#Dessert
+36#Chicken Alfredo Pasta#100#Pasta
+37#Beef Bolognese Pasta#110#Pasta
+38#Penne Arrabbiata#90#Pasta
+39#Caesar Salad#65#Salads
+40#Greek Salad#60#Salads

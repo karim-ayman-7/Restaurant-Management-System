@@ -11,64 +11,6 @@ OrderScreen::OrderScreen(Menu& menu, Order& order)
 {
 }
 
-void OrderScreen::PrintOrderDetails() const
-{
-    int number = 1;
-
-    for (const OrderItem& orderItem : order.GetItems())
-    {
-        const MenuItem& item = orderItem.GetItem();
-
-        cout << number++ << "-" << left << setw(20) << item.GetName()
-            << setw(15) << ("Quantity: " + to_string(orderItem.GetQuantity()))
-            << setw(15) << ("Price: " + to_string(item.GetPrice()))
-            << "Subtotal: " << orderItem.GetSubTotal() << endl;
-    }
-
-    cout << endl << "Total: " << order.GetTotal() << endl;
-}
-
-int OrderScreen::ReadItemChoice()
-{
-    int choice;
-
-    while (!ReadInt(choice))
-    {
-        cout << "Invalid input. Enter a numeric item number: ";
-    }
-
-    return choice;
-}
-
-int OrderScreen::ReadQuantity()
-{
-    int quantity;
-
-    while (true)
-    {
-        cout << "Enter quantity: ";
-
-        if (ReadInt(quantity) && quantity > 0)
-            return quantity;
-
-        cout << "Invalid quantity. Enter a number greater than 0." << endl;
-    }
-}
-
-int OrderScreen::ReadNewQuantity()
-{
-    int quantity;
-
-    while (true)
-    {
-        cout << "Enter new quantity (0 to remove): ";
-
-        if (ReadInt(quantity) && quantity >= 0)
-            return quantity;
-
-        cout << "Invalid quantity. Enter 0 or a number greater than 0." << endl;
-    }
-}
 
 bool OrderScreen::SelectCategory(string& category)
 {
@@ -79,6 +21,7 @@ bool OrderScreen::SelectCategory(string& category)
 
     return !category.empty();
 }
+
 
 int OrderScreen::SelectItemNumber(string category, int itemsCount)
 {
@@ -102,6 +45,36 @@ int OrderScreen::SelectItemNumber(string category, int itemsCount)
         PauseAndWaitForEnter();
     }
 }
+
+
+int OrderScreen::ReadItemChoice()
+{
+    int choice;
+
+    while (!ReadInt(choice))
+    {
+        cout << "Invalid input. Enter a numeric item number: ";
+    }
+
+    return choice;
+}
+
+
+int OrderScreen::ReadQuantity()
+{
+    int quantity;
+
+    while (true)
+    {
+        cout << "Enter quantity: ";
+
+        if (ReadInt(quantity) && quantity > 0)
+            return quantity;
+
+        cout << "Invalid quantity. Enter a number greater than 0." << endl;
+    }
+}
+
 
 bool OrderScreen::AddItemToOrder()
 {
@@ -133,6 +106,7 @@ bool OrderScreen::AddItemToOrder()
     }
 }
 
+
 void OrderScreen::StartOrder()
 {
     do
@@ -144,6 +118,47 @@ void OrderScreen::StartOrder()
 
     } while (ReadYesNo());
 }
+
+
+void OrderScreen::PrintOrderDetails() const
+{
+    cout << left << setw(6) << "No."
+        << setw(25) << "Item"
+        << setw(12) << "Quantity"
+        << setw(15) << "Unit Price"
+        << "Subtotal" << endl;
+
+    for (int i = 0; i < static_cast<int>(order.GetItems().size()); i++)
+    {
+        const OrderItem& orderItem = order.GetItems()[i];
+        const MenuItem& item = orderItem.GetItem();
+
+        cout << left << setw(6) << i + 1
+            << setw(25) << item.GetName()
+            << setw(12) << orderItem.GetQuantity()
+            << setw(15) << item.GetPrice()
+            << orderItem.GetSubTotal() << endl;
+    }
+
+    cout << endl << "Total: " << order.GetTotal() << endl;
+}
+
+
+int OrderScreen::ReadNewQuantity()
+{
+    int quantity;
+
+    while (true)
+    {
+        cout << "Enter new quantity (0 to remove): ";
+
+        if (ReadInt(quantity) && quantity >= 0)
+            return quantity;
+
+        cout << "Invalid quantity. Enter 0 or a number greater than 0." << endl;
+    }
+}
+
 
 void OrderScreen::ViewAndEditOrder()
 {

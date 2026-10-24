@@ -16,5 +16,5 @@ private:
 public:
     virtual ~NavigationMenu() = default;
 
-    void Run();
+    virtual void Run();
 };

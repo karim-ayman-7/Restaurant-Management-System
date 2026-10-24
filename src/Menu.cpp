@@ -7,34 +7,6 @@ Menu::Menu(const vector<MenuItem>& items)
 {
 }
 
-bool Menu::AddItem(const string& name, int price, const string& category)
-{
-    if (name.empty() || price <= 0 || category.empty())
-        return false;
-
-    MenuItems.push_back(MenuItem(name, price, category));
-
-    return true;
-}
-
-std::vector<MenuItem> Menu::GetItems() const
-{
-    return MenuItems;
-}
-
-bool Menu::RemoveItem(int id)
-{
-    for (int i = 0; i < static_cast<int>(MenuItems.size()); i++)
-    {
-        if (MenuItems[i].GetId() == id)
-        {
-            MenuItems.erase(MenuItems.begin() + i);
-            return true;
-        }
-    }
-
-    return false;
-}
 
 vector<string> Menu::GetCategories() const
 {
@@ -60,6 +32,7 @@ vector<string> Menu::GetCategories() const
     return categories;
 }
 
+
 vector<MenuItem> Menu::GetItemsByCategory(const string& category) const
 {
     vector<MenuItem> result;
@@ -71,4 +44,51 @@ vector<MenuItem> Menu::GetItemsByCategory(const string& category) const
     }
 
     return result;
+}
+
+bool Menu::AddItem(const string& name, int price, const string& category)
+{
+    if (name.empty() || price <= 0 || category.empty())
+        return false;
+
+    MenuItems.push_back(MenuItem(name, price, category));
+
+    return true;
+}
+
+
+bool Menu::UpdateItem(
+    int id,
+    const string& name,
+    int price,
+    const string& category)
+{
+    for (MenuItem& item : MenuItems)
+    {
+        if (item.GetId() == id)
+            return item.UpdateDetails(name, price, category);
+    }
+
+    return false;
+}
+
+
+bool Menu::RemoveItem(int id)
+{
+    for (int i = 0; i < static_cast<int>(MenuItems.size()); i++)
+    {
+        if (MenuItems[i].GetId() == id)
+        {
+            MenuItems.erase(MenuItems.begin() + i);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+std::vector<MenuItem> Menu::GetItems() const
+{
+    return MenuItems;
 }

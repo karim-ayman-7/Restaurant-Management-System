@@ -1,0 +1,2 @@
+2#WaitingForPayment##2#Meat Burger#60#1#Burger
+2#WaitingForPayment##5#Pepsi#20#2#Drinks

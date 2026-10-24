@@ -11,6 +11,7 @@ MenuScreen::MenuScreen(const Menu& menu)
 {
 }
 
+
 void MenuScreen::MenuHeader() const
 {
     ClearScreen();
@@ -18,6 +19,7 @@ void MenuScreen::MenuHeader() const
     PrintCentered("Restaurant Menu");
     PrintLine();
 }
+
 
 void MenuScreen::DisplayCategories() const
 {
@@ -32,20 +34,6 @@ void MenuScreen::DisplayCategories() const
     cout << categories.size() + 1 << "-Back" << endl;
 }
 
-void MenuScreen::DisplayCategoryItems(const string& category) const
-{
-    int choice = 1;
-    vector<MenuItem> items = menu.GetItemsByCategory(category);
-
-    for (const MenuItem& item : items)
-    {
-        cout << choice++ << "-";
-        cout << setw(25) << left << item.GetName() << "Price: ";
-        cout << item.GetPrice() << endl;
-    }
-
-    cout << choice << "-Back" << endl;
-}
 
 string MenuScreen::SelectCategoryChoice() const
 {
@@ -65,4 +53,24 @@ string MenuScreen::SelectCategoryChoice() const
 
         cout << "Invalid category. Choose a number from 1 to " << backChoice << ": ";
     }
+}
+
+void MenuScreen::DisplayCategoryItems(const string& category) const
+{
+    vector<MenuItem> items = menu.GetItemsByCategory(category);
+
+    cout << left << setw(6) << "No."
+        << setw(25) << "Item"
+        << "Price" << endl;
+
+    for (int i = 0; i < static_cast<int>(items.size()); i++)
+    {
+        const MenuItem& item = items[i];
+
+        cout << left << setw(6) << i + 1
+            << setw(25) << item.GetName()
+            << item.GetPrice() << endl;
+    }
+
+    cout << endl << items.size() + 1 << "-Back" << endl;
 }

@@ -1,17 +1,15 @@
 #pragma once
 
 #include "Order.h"
+#include "PaymentMethods.h"
 
 class PaymentScreen
 {
 private:
-    Order& order;
-
     int ReadPaymentChoice();
-    void PrintReceipt(const std::string& methodName) const;
+    void PrintReceipt(const Order& order) const;
 
 public:
-    PaymentScreen(Order& order);
-
-    void MakePayment();
+    PaymentResult MakePayment(const Order& order);
+    void ShowReceipt(const Order& order) const;
 };

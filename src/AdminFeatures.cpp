@@ -1,158 +1,97 @@
 #include "AdminFeatures.h"
-#include "Menu.h"
 
-#include <iostream>
-#include <vector>
-#include "Utils.h"
+#include <map>
 
 using namespace std;
 
-AdminFeatures::AdminFeatures(Menu& menu)
-    : menu(menu), menuScreen(menu)
+AdminFeatures::AdminFeatures(Menu& menu, const vector<Order>& orderHistory)
+    : menu(menu), orderHistory(orderHistory)
 {
 }
 
-bool AdminFeatures::AddMenuItem()
+
+vector<string> AdminFeatures::GetCategories() const
 {
-    while (true)
+    return menu.GetCategories();
+}
+
+
+vector<MenuItem> AdminFeatures::GetItemsByCategory(const string& category) const
+{
+    return menu.GetItemsByCategory(category);
+}
+
+
+bool AdminFeatures::AddMenuItem(
+    const string& name,
+    int price,
+    const string& category)
+{
+    if (name.empty() || name.find('#') != string::npos || price <= 0
+        || category.empty() || category.find('#') != string::npos)
+        return false;
+
+    return menu.AddItem(name, price, category);
+}
+
+
+bool AdminFeatures::RemoveMenuItem(int itemId)
+{
+    return menu.RemoveItem(itemId);
+}
+
+
+bool AdminFeatures::EditMenuItem(
+    int itemId,
+    const string& name,
+    int price,
+    const string& category)
+{
+    if (name.empty() || name.find('#') != string::npos || price <= 0
+        || category.empty() || category.find('#') != string::npos)
+        return false;
+
+    return menu.UpdateItem(itemId, name, price, category);
+}
+
+
+const vector<Order>& AdminFeatures::GetOrderHistory() const
+{
+    return orderHistory;
+}
+
+
+SalesReport AdminFeatures::GetSalesReport() const
+{
+    map<int, ItemSales> salesByItem;
+    SalesReport report;
+
+    for (const Order& order : orderHistory)
     {
-        ClearScreen();
-        PrintLine();
-        PrintCentered("Add Menu Item");
-        PrintLine();
-        cout << endl;
-
-        string name;
-        cout << "Item name: ";
-        name = ReadLine();
-
-        int price;
-
-        while (true)
-        {
-            cout << "Item price: ";
-
-            if (ReadInt(price))
-                break;
-
-            cout << "Invalid price. Enter a whole number." << endl;
-        }
-
-        vector<string> categories = menu.GetCategories();
-        int newCategoryChoice = static_cast<int>(categories.size()) + 1;
-
-        cout << "Choose A Category" << endl << endl;
-
-        for (int i = 0; i < static_cast<int>(categories.size()); i++)
-            cout << i + 1 << "-" << categories[i] << endl;
-
-        cout <<"\n"<< newCategoryChoice << "-New Category" << endl;
-        cout << newCategoryChoice + 1 << "-Cancel" << endl;
-        cout << "Choose a category: ";
-
-        int choice;
-
-        while (true)
-        {
-            if (ReadInt(choice) && choice >= 1 && choice <= newCategoryChoice + 1)
-                break;
-
-            cout << "Invalid choice. Choose a number from 1 to "
-                << newCategoryChoice + 1 << ": ";
-        }
-
-        if (choice == newCategoryChoice + 1)
-            return false;
-
-        string category;
-
-        if (choice == newCategoryChoice)
-        {
-            cout << "New category name: ";
-            category = ReadLine();
-        }
-        else
-            category = categories[choice - 1];
-
-        if (!menu.AddItem(name, price, category))
-        {
-            cout << "Invalid item details. Please enter the item again." << endl;
-            PauseAndWaitForEnter();
+        if (order.GetStatus() != enOrderStatus::Paid)
             continue;
+
+        report.paidOrderCount++;
+        report.totalRevenue += order.GetTotal();
+
+        for (const OrderItem& orderItem : order.GetItems())
+        {
+            const MenuItem& item = orderItem.GetItem();
+            ItemSales& sales = salesByItem[item.GetId()];
+
+            if (sales.name.empty())
+            {
+                sales.name = item.GetName();
+                sales.category = item.GetCategory();
+            }
+
+            sales.quantity += orderItem.GetQuantity();
+            sales.revenue += orderItem.GetSubTotal();
         }
-
-        cout << endl;
-        PrintCentered("Menu item added successfully.");
-        PauseAndWaitForEnter();
-        return true;
-    }
-}
-bool AdminFeatures::RemoveMenuItem()
-{
-    vector<string> categories = menu.GetCategories();
-
-    PrintLine();
-    PrintCentered("Remove Menu Item");
-    PrintLine();
-    cout << endl;
-
-    if (categories.empty())
-    {
-        cout << "There are no menu items to remove." << endl;
-        PauseAndWaitForEnter();
-        return false;
     }
 
-    menuScreen.DisplayCategories();
-    cout << "Choose a category, or choose Back to cancel: ";
+    for (const auto& entry : salesByItem)
+        report.itemSales.push_back(entry.second);
 
-    string category = menuScreen.SelectCategoryChoice();
-
-    if (category.empty())
-        return false;
-
-    vector<MenuItem> items = menu.GetItemsByCategory(category);
-
-    cout << endl << "Items in " << category << ":" << endl << endl;
-
-    for (int i = 0; i < static_cast<int>(items.size()); i++)
-    {
-        const MenuItem& item = items[i];
-
-        cout << i + 1 << "- " << item.GetName()
-            << " | Price: " << item.GetPrice() << endl;
-    }
-
-    cout << "0-Cancel" << endl;
-    cout << "Choose an item to remove: ";
-
-    int choice;
-
-    while (true)
-    {
-        if (ReadInt(choice) && choice >= 0 && choice <= static_cast<int>(items.size()))
-            break;
-
-        cout << "Invalid choice. Enter 0 or a number from 1 to "
-            << items.size() << ": ";
-    }
-
-    if (choice == 0)
-        return false;
-
-    int itemId = items[choice - 1].GetId();
-
-    bool removed = menu.RemoveItem(itemId);
-
-    if (removed)
-        cout << "Menu item removed successfully." << endl;
-    else
-        cout << "Menu item was not found." << endl;
-
-    PauseAndWaitForEnter();
-    return removed;
-}
-
-void AdminFeatures::ViewOrders()
-{
+    return report;
 }

@@ -5,14 +5,16 @@
 #include "Menu.h"
 #include "Order.h"
 #include "OrderScreen.h"
-#include "PaymentScreen.h"
+#include <vector>
 
 class CustomerMenu : public NavigationMenu
 {
 private:
     Order order;
+    std::vector<Order>& pendingOrders;
     OrderScreen orderScreen;
-    PaymentScreen paymentScreen;
+
+    void ConfirmOrder();
 
     std::string GetTitle() const override;
     void ShowOptions() override;
@@ -20,5 +22,5 @@ private:
     int GetLastChoice() const override;
 
 public:
-    CustomerMenu(Menu& menu);
+    CustomerMenu(Menu& menu, std::vector<Order>& pendingOrders);
 };

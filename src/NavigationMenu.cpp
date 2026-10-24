@@ -5,6 +5,20 @@
 
 using namespace std;
 
+void NavigationMenu::Run()
+{
+    int choice;
+
+    do
+    {
+        ShowHeader();
+        ShowOptions();
+        choice = ReadChoice();
+        PerformChoice(choice);
+
+    } while (choice != GetLastChoice());
+}
+
 void NavigationMenu::ShowHeader() const
 {
     ClearScreen();
@@ -13,6 +27,7 @@ void NavigationMenu::ShowHeader() const
     PrintCentered(GetTitle());
     PrintLine();
 }
+
 
 int NavigationMenu::ReadChoice() const
 {
@@ -26,18 +41,4 @@ int NavigationMenu::ReadChoice() const
 
         cout << "Invalid choice. Choose a number from 1 to " << max << ": ";
     }
-}
-
-void NavigationMenu::Run()
-{
-    int choice;
-
-    do
-    {
-        ShowHeader();
-        ShowOptions();
-        choice = ReadChoice();
-        PerformChoice(choice);
-
-    } while (choice != GetLastChoice());
 }

@@ -5,26 +5,18 @@ using namespace std;
 int Order::NextId = 1;
 
 Order::Order()
-    : Id(NextId++)
+    : Id(NextId++), Status(enOrderStatus::Open)
 {
 }
 
-int Order::GetId() const
+
+Order::Order(int id, enOrderStatus status, const string& paymentMethod)
+    : Id(id), Status(status), PaymentMethod(paymentMethod)
 {
-    return Id;
+    if (id >= NextId)
+        NextId = id + 1;
 }
 
-int Order::GetTotal() const
-{
-    int total = 0;
-
-    for (const OrderItem& orderItem : OrderItems)
-    {
-        total += orderItem.GetSubTotal();
-    }
-
-    return total;
-}
 
 bool Order::AddItem(const MenuItem& item, int quantity)
 {
@@ -44,15 +36,19 @@ bool Order::AddItem(const MenuItem& item, int quantity)
     return true;
 }
 
-bool Order::IsEmpty() const
+
+int Order::GetTotal() const
 {
-    return OrderItems.empty();
+    int total = 0;
+
+    for (const OrderItem& orderItem : OrderItems)
+    {
+        total += orderItem.GetSubTotal();
+    }
+
+    return total;
 }
 
-const vector<OrderItem>& Order::GetItems() const
-{
-    return OrderItems;
-}
 
 bool Order::SetItemQuantity(int index, int quantity)
 {
@@ -72,8 +68,53 @@ bool Order::SetItemQuantity(int index, int quantity)
     return true;
 }
 
+
+void Order::MarkWaitingForPayment()
+{
+    Status = enOrderStatus::WaitingForPayment;
+}
+
+void Order::MarkPaid(const string& paymentMethod)
+{
+    Status = enOrderStatus::Paid;
+    PaymentMethod = paymentMethod;
+}
+
+
 void Order::Reset()
 {
     OrderItems.clear();
     Id = NextId++;
+    Status = enOrderStatus::Open;
+    PaymentMethod.clear();
+}
+
+
+bool Order::IsEmpty() const
+{
+    return OrderItems.empty();
+}
+
+
+const vector<OrderItem>& Order::GetItems() const
+{
+    return OrderItems;
+}
+
+
+int Order::GetId() const
+{
+    return Id;
+}
+
+
+enOrderStatus Order::GetStatus() const
+{
+    return Status;
+}
+
+
+const string& Order::GetPaymentMethod() const
+{
+    return PaymentMethod;
 }
