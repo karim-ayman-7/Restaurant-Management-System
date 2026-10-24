@@ -121,11 +121,6 @@ vector<MenuItem> FileManager::LoadMenu(const string& filePath)
         }
     }
 
-    ifstream idFile(filePath + ".nextid");
-    int nextId;
-    if (idFile >> nextId && nextId > 0)
-        MenuItem::RestoreNextId(nextId);
-
     return items;
 }
 
@@ -151,16 +146,7 @@ bool FileManager::SaveMenu(const string& filePath, const vector<MenuItem>& items
     if (file.fail())
         return false;
 
-    ofstream idFile(filePath + ".nextid");
-    if (!idFile.is_open())
-        return false;
-
-    idFile << MenuItem::GetNextId() << "\n";
-    idFile.flush();
-    if (!idFile)
-        return false;
-    idFile.close();
-    return !idFile.fail();
+    return true;
 }
 
 

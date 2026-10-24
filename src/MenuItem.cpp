@@ -18,19 +18,6 @@ MenuItem::MenuItem(int id, const string& name, int price, const string& category
 }
 
 
-int MenuItem::GetNextId()
-{
-    return NextId;
-}
-
-
-void MenuItem::RestoreNextId(int nextId)
-{
-    if (nextId > NextId)
-        NextId = nextId;
-}
-
-
 const string& MenuItem::GetName() const
 {
     return Name;

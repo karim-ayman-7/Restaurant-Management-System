@@ -29,7 +29,6 @@ A console-based restaurant management system written in C++.
 All data is stored in plain text files under the `data/` folder using `#` as a delimiter. The folder is created automatically on first run.
 
 - `menu.txt` — menu items.
-- `menu.txt.nextid` — next menu item ID, kept separately so deleting an item does not reuse its ID after restart.
 - `pending_orders.txt` — orders waiting for payment.
 - `order_history.txt` — completed orders.
 
